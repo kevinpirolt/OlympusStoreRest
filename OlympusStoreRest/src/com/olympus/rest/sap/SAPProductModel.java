@@ -17,7 +17,6 @@ public class SAPProductModel {
 	private static SAPProductModel instance = null;
 	
 	private JCO.Client mConnection = null;
-	private JCO.Repository mRepository = null;
 	
 	String userName = null;
 	String password = null;
@@ -68,13 +67,16 @@ public class SAPProductModel {
 		}
 	}
 	
-	public void insertProduct(String pname, float price, int initialQuantity, Date reldate,
-			String interpret, String type, String genre, String description, String img) throws Exception {
+	public void insertProduct(Product insertProduct) throws Exception {
 		this.createConnection();
 		JCO.Function insert = sfp.getFunction("ZBAPI_OLYMPUS_INSERTPRODUCT", this.mConnection);
 		JCO.Function commit = sfp.getCommitFunction(mConnection);
-		ArrayList<Object> values = sfp.prepareArrayList(pname, price, initialQuantity, reldate,
-				interpret, type, genre, description, img);
+		ArrayList<Object> values = sfp.prepareArrayList(
+				insertProduct.getName(), insertProduct.getPrice(), 
+				insertProduct.getQuantity(), insertProduct.getReleaseDate(),
+				insertProduct.getInterpret(), insertProduct.getType(),
+				insertProduct.getGenre(), insertProduct.getDescription(),
+				insertProduct.getImage());
 		ArrayList<String> names = sfp.prepareStringArrayList("INSNAME", "INSPRICE", "INSQTY", "INSTRELDATE",
 				"INSTINTERPRET", "INSTYPE", "INSGENRE", "INSDESCRIPTION", "INSIMG");
 		sfp.setInsertParameter(insert, values, names);

@@ -14,6 +14,7 @@ public class Product {
 	private Date releaseDate;
 	private String interpret;
 	private String genre;
+	private String type;
 	private String description;
 	private String image;
 
@@ -24,6 +25,19 @@ public class Product {
 			String interpret, String genre, String description, String image) {
 		super();
 		this.id = id;
+		this.price = price;
+		this.name = name;
+		this.quantity = quantity;
+		this.releaseDate = releaseDate;
+		this.interpret = interpret;
+		this.genre = genre;
+		this.description = description;
+		this.image = image;
+	}
+	
+	public Product(float price,String name, int quantity, Date releaseDate,
+			String interpret, String genre, String description, String image) {
+		super();
 		this.price = price;
 		this.name = name;
 		this.quantity = quantity;
@@ -105,5 +119,13 @@ public class Product {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 }
