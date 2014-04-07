@@ -17,46 +17,23 @@ public class SAPProductModel {
 	private static SAPProductModel instance = null;
 	
 	private JCO.Client mConnection = null;
-	
-	String userName = null;
-	String password = null;
-	String ipAddress = null;
 
 	private SAPFunctionPreperator sfp = null;
+	private JCOClientCreator jcc = null;
 	
-	private SAPProductModel() {sfp = new SAPFunctionPreperator();}
-	
-	private SAPProductModel(String userName, String password, String ipAddress) {
-		this.userName = userName;
-		this.password = password;
-		this.ipAddress = ipAddress;
+	private SAPProductModel() {
 		sfp = new SAPFunctionPreperator();
+		jcc = JCOClientCreator.getInstanceOf();
 	}
 	
 	public static SAPProductModel getInstanceOf() {
 		if(instance == null)
-			instance = new SAPProductModel("BCUSER".toUpperCase(), "MINISAP".toUpperCase(), "");
+			instance = new SAPProductModel();
 		return instance;
 	}
 	
-	public void setInformation(String userName, String password, String ipAddress){
-		this.userName = userName;
-		this.password = password;
-		this.ipAddress = ipAddress;
-	}
-	
-	/*private void connect() {
-		AnnotationConfiguration configuration= new AnnotationConfiguration("A12"); 
-		SessionManager sessionManager = configuration.buildSessionManager();
-		
-	}*/
-	
 	public void createConnection() throws Exception {
-		String mandant = "000";
-		String language = "EN";
-		String systemNumber = "00";
-				
-		mConnection = JCO.createClient(mandant, userName, password, language, ipAddress, systemNumber);
+		mConnection = jcc.createJCOClient();
 		mConnection.connect();
 	}
 	
@@ -141,17 +118,4 @@ public class SAPProductModel {
 		this.disconnect();
 		return products;
 	}
-
-	/*public void insertProduct(String newPMotivation, String newPName,
-			String newPDate, String newDNo) throws Exception {
-		JCO.Function insert = this.getFunction("ZBAPI_DEPARTMENT_INSERTPUPIL");
-		JCO.Function commit = this.getFunction("BAPI_TRANSACTION_COMMIT");
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		//Date d = sdf.parse(newPDate);
-		//SAPConnection.setInsertPupilParameter(insert, newPName, newPMotivation, newPDate, newDNo);
-		this.executeFunction(insert);
-		this.executeFunction(commit);
-		System.out.println("X");
-		this.disconnect();
-	}*/
 }
