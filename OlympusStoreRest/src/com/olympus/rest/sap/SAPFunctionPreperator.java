@@ -66,7 +66,7 @@ public class SAPFunctionPreperator {
 	public ArrayList<Product> getProducts(Function get) {
 		ArrayList<Product> products = new ArrayList<Product>();
 		JCO.Table productsTable = get.getTableParameterList().getTable("PRODUCTS");
-		for(int i = 0; i<productsTable.getNumRows(); i++){
+		for(int i = 0; i<productsTable.getNumRows(); i++, productsTable.setRow(i)){
 			int id = productsTable.getInt("ID");
 			String name = productsTable.getString("NAME");
 			float price = productsTable.getFloat("PRICE");
@@ -77,7 +77,7 @@ public class SAPFunctionPreperator {
 			String genre = productsTable.getString("GENRE");
 			String description = productsTable.getString("DESCRIPTION");
 			String image = productsTable.getString("IMG");
-			products.add(new Product(id, price, name, qty, reldate, interpret, genre, description, image));
+			products.add(new Product(id, price, name, qty, reldate, interpret, genre, description, image, type));
 		}
 		return products;
 	}

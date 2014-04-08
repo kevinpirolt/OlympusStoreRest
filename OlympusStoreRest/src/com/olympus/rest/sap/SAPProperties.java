@@ -3,56 +3,32 @@ package com.olympus.rest.sap;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
+import java.util.HashMap;
 import java.util.Properties;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.servlet.ServletContext;
+import javax.sql.DataSource;
+
 public class SAPProperties {
-    public final static String filePath = "./WebContent/META-INF/sap.properties";
-    
-    private static SAPProperties instance = null;
-    
-    private SAPProperties() {}
-    
-    public static synchronized SAPProperties getInstanceOf() {
-        if(instance == null)
-            instance = new SAPProperties();
-        return instance;
-    }
-    
-    public String getUser() throws FileNotFoundException, IOException {
-        Properties prop = SAPProperties.createProperties();
-        return prop.getProperty("user");
-    }
-    
-    public String getPassword() throws FileNotFoundException, IOException {
-        Properties prop = SAPProperties.createProperties();
-        return prop.getProperty("password");
-    }
-    
-    public String getIP() throws FileNotFoundException, IOException {
-        Properties prop = SAPProperties.createProperties();
-        return prop.getProperty("ip");
-    }
-    
-    public String getMandant() throws FileNotFoundException, IOException {
-        Properties prop = SAPProperties.createProperties();
-        return prop.getProperty("mandant");
-    }
-    
-    public String getLanguage() throws FileNotFoundException, IOException {
-        Properties prop = SAPProperties.createProperties();
-        return prop.getProperty("language");
-    }
-    
-    public String getSystemNumber() throws FileNotFoundException, IOException {
-        Properties prop = SAPProperties.createProperties();
-        return prop.getProperty("systemNumber");
-    }
-    
-    private static Properties createProperties() throws FileNotFoundException, IOException {
-        Properties prop = new Properties();
-        FileInputStream fis = new FileInputStream(SAPProperties.filePath);
-        prop.load(fis);
-        fis.close();
-        return prop;
-    }
+	
+	public static HashMap<String,String> getSAPParameters(ServletContext context) throws NamingException {
+		HashMap<String,String> parameters = new HashMap<String,String>();
+		SAPProperties.fillParameters(parameters, context);
+		return parameters;
+	}
+
+	private static void fillParameters(HashMap<String, String> parameters,
+			ServletContext context) {
+		parameters.put("user", context.getInitParameter("user"));
+		parameters.put("password", context.getInitParameter("password"));
+		parameters.put("ip", context.getInitParameter("ip"));
+		parameters.put("mandant", context.getInitParameter("mandant"));
+		parameters.put("language", context.getInitParameter("language"));
+		parameters.put("systemNumber", context.getInitParameter("systemNumber"));
+	}
+	
 }

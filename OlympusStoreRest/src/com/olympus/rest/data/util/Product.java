@@ -22,7 +22,7 @@ public class Product {
 	}
 
 	public Product(int id, float price,String name, int quantity, Date releaseDate,
-			String interpret, String genre, String description, String image) {
+			String interpret, String genre, String description, String image, String type) {
 		super();
 		this.id = id;
 		this.price = price;
@@ -33,10 +33,11 @@ public class Product {
 		this.genre = genre;
 		this.description = description;
 		this.image = image;
+		this.type = type;
 	}
 	
 	public Product(float price,String name, int quantity, Date releaseDate,
-			String interpret, String genre, String description, String image) {
+			String interpret, String genre, String description, String image, String type) {
 		super();
 		this.price = price;
 		this.name = name;
@@ -46,6 +47,7 @@ public class Product {
 		this.genre = genre;
 		this.description = description;
 		this.image = image;
+		this.type = type;
 	}
 
 	// -----------------------------------------------------------------------------------------------------

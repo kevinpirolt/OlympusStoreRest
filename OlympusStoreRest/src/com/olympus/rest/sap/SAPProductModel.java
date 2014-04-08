@@ -1,7 +1,8 @@
 package com.olympus.rest.sap;
 
 import java.util.ArrayList;
-import java.util.Date;
+
+import javax.servlet.ServletContext;
 
 import com.olympus.rest.data.util.Product;
 import com.sap.mw.jco.JCO;
@@ -21,14 +22,14 @@ public class SAPProductModel {
 	private SAPFunctionPreperator sfp = null;
 	private JCOClientCreator jcc = null;
 	
-	private SAPProductModel() {
+	private SAPProductModel(ServletContext context) {
 		sfp = new SAPFunctionPreperator();
-		jcc = JCOClientCreator.getInstanceOf();
+		jcc = JCOClientCreator.getInstanceOf(context);
 	}
 	
-	public static SAPProductModel getInstanceOf() {
+	public static SAPProductModel getInstanceOf(ServletContext context) {
 		if(instance == null)
-			instance = new SAPProductModel();
+			instance = new SAPProductModel(context);
 		return instance;
 	}
 	
@@ -64,10 +65,7 @@ public class SAPProductModel {
 	
 	public ArrayList<Product> getAllProducts() throws Exception {
 		ArrayList<Product> products = null;
-		products = new ArrayList<Product>();
-		products.add(new Product(0, 0.20f, "Relapse", 100, new Date(), "Eminem", "Rap", "is Em", "Nope"));
-		products.add(new Product(1, 0.30f, "Encore", 100, new Date(), "Eminem", "Rap", "is Em", "Nope"));
-		/*this.createConnection();
+		this.createConnection();
 		
 		JCO.Function get = sfp.getFunction("ZBAPI_OLYMPUS_GETPRODUCT", this.mConnection);
 		JCO.Function commit = sfp.getCommitFunction(mConnection);
@@ -75,7 +73,7 @@ public class SAPProductModel {
 		sfp.executeFunction(commit, this.mConnection);
 		products = sfp.getProducts(get);
 		
-		this.disconnect()*/;
+		this.disconnect();
 		return products;
 	}
 
