@@ -38,9 +38,9 @@ public class OlympusRest {
 	}
 	
 	@GET
-	@Path("getproductsbyname")
+	@Path("getproductsbyname/{productname}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_XML, MediaType.TEXT_HTML })
-	public ArrayList<Product> getProductsByName(@PathParam("productname") String productName, @Context ServletContext ctx) {
+	public ArrayList<Product> getProductsByName(@PathParam("productname") String productName) {
 		ArrayList<Product> products = new ArrayList<Product>();
 		try {
 			SAPProductModel spm = SAPProductModel.getInstanceOf(context);
@@ -53,9 +53,9 @@ public class OlympusRest {
 	}
 	
 	@GET
-	@Path("getlatestproducts")
+	@Path("getlatestproducts/{producttype}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_XML, MediaType.TEXT_HTML })
-	public ArrayList<Product> getLatestProducts(@PathParam("producttype") String productType, @Context ServletContext ctx) {
+	public ArrayList<Product> getLatestProducts(@PathParam("producttype") String productType) {
 		ArrayList<Product> products = new ArrayList<Product>();
 		try {
 			SAPProductModel spm = SAPProductModel.getInstanceOf(context);
@@ -69,7 +69,7 @@ public class OlympusRest {
 	
 	@POST
 	@Consumes({MediaType.TEXT_HTML, MediaType.TEXT_XML})
-	public String insertProduct(Product product, @Context ServletContext ctx) {
+	public String insertProduct(Product product) {
 		String outcome = "Product inserted";
 		try {
 			SAPProductModel spm = SAPProductModel.getInstanceOf(context);
