@@ -8,12 +8,6 @@ import com.olympus.rest.data.util.Product;
 import com.sap.mw.jco.JCO;
 
 public class SAPProductModel {
-	/**
-	 * nach Typ: latest 3
-	 * nach Suchstrig: name
-	 * alle daten von einem
-	 * 
-	 */
 	
 	private static SAPProductModel instance = null;
 	

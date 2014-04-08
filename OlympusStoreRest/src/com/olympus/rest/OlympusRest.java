@@ -13,6 +13,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import com.olympus.rest.data.util.Product;
+import com.olympus.rest.data.util.ProductList;
 import com.olympus.rest.sap.SAPProductModel;
 
 
@@ -55,16 +56,20 @@ public class OlympusRest {
 	@GET
 	@Path("getlatestproducts/{producttype}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_XML, MediaType.TEXT_HTML })
-	public ArrayList<Product> getLatestProducts(@PathParam("producttype") String productType) {
+	public ProductList getLatestProducts(@PathParam("producttype") String productType) {
+		System.out.println("In getLatestProducts");
 		ArrayList<Product> products = new ArrayList<Product>();
+		ProductList pl = new ProductList();
 		try {
 			SAPProductModel spm = SAPProductModel.getInstanceOf(context);
 			products = spm.getLatestProductsPerType(productType);
+			pl.setProducts(products);
 		} catch (Exception e) {
 			e.printStackTrace();
 			products = null;
+			pl = null;
 		}
-		return products;
+		return pl;
 	}
 	
 	@POST
