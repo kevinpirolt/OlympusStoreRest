@@ -1,6 +1,7 @@
 package com.olympus.rest;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
@@ -15,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import com.olympus.rest.data.util.Product;
 import com.olympus.rest.data.util.ProductList;
 import com.olympus.rest.sap.SAPProductModel;
+import com.sun.istack.internal.logging.Logger;
 
 
 @Path("/olympusrest/")
@@ -26,31 +28,35 @@ public class OlympusRest {
 	@GET
 	@Path("getallproducts")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_XML, MediaType.TEXT_HTML })
-	public ArrayList<Product> getAllBooks() {
+	public ProductList getAllBooks() {
 		ArrayList<Product> products = new ArrayList<Product>();
+		ProductList pl = new ProductList();
 		try {
 			SAPProductModel spm = SAPProductModel.getInstanceOf(context);
 			products = spm.getAllProducts();
+			pl.setProducts(products);
 		} catch (Exception e) {
 			e.printStackTrace();
-			products = null;
+			Logger.getLogger(OlympusRest.class).log(Level.SEVERE, "Problems Connecting to SAP", e);
 		}
-		return products;
+		return pl;
 	}
 	
 	@GET
 	@Path("getproductsbyname/{productname}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_XML, MediaType.TEXT_HTML })
-	public ArrayList<Product> getProductsByName(@PathParam("productname") String productName) {
+	public ProductList getProductsByName(@PathParam("productname") String productName) {
 		ArrayList<Product> products = new ArrayList<Product>();
+		ProductList pl = new ProductList();
 		try {
 			SAPProductModel spm = SAPProductModel.getInstanceOf(context);
 			products = spm.getProductsByName(productName);
+			pl.setProducts(products);
 		} catch (Exception e) {
 			e.printStackTrace();
-			products = null;
+			Logger.getLogger(OlympusRest.class).log(Level.SEVERE, "Problems Connecting to SAP", e);
 		}
-		return products;
+		return pl;
 	}
 	
 	@GET
@@ -66,8 +72,7 @@ public class OlympusRest {
 			pl.setProducts(products);
 		} catch (Exception e) {
 			e.printStackTrace();
-			products = null;
-			pl = null;
+			Logger.getLogger(OlympusRest.class).log(Level.SEVERE, "Problems Connecting to SAP", e);
 		}
 		return pl;
 	}
