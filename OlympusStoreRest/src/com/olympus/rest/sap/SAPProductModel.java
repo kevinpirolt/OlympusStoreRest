@@ -6,6 +6,7 @@ import javax.servlet.ServletContext;
 
 import com.olympus.rest.data.util.Product;
 import com.sap.mw.jco.JCO;
+import com.sap.mw.jco.util.SyncDateFormat;
 
 public class SAPProductModel {
 	

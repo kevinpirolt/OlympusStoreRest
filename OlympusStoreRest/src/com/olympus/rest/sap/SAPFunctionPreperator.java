@@ -1,6 +1,6 @@
 package com.olympus.rest.sap;
 
-import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -8,6 +8,7 @@ import com.olympus.rest.data.util.Product;
 import com.sap.mw.jco.IFunctionTemplate;
 import com.sap.mw.jco.JCO;
 import com.sap.mw.jco.JCO.Function;
+import com.sap.mw.jco.util.SyncDateFormat;
 
 public class SAPFunctionPreperator {
 
@@ -88,8 +89,8 @@ public class SAPFunctionPreperator {
 		return remaining;
 	}
 
-	public String getParsedDateString(Date releaseDate) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-		return sdf.format(releaseDate);
+	public Date getParsedDateString(Date releaseDate) throws ParseException {
+		SyncDateFormat sdf = new SyncDateFormat("yyyyMMdd");
+		return sdf.parse(sdf.format(releaseDate));
 	}
 }
