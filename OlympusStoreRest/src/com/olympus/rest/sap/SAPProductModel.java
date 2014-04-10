@@ -45,7 +45,7 @@ public class SAPProductModel {
 		JCO.Function commit = sfp.getCommitFunction(mConnection);
 		ArrayList<Object> values = sfp.prepareArrayList(
 				insertProduct.getName(), insertProduct.getPrice(), 
-				insertProduct.getQuantity(), insertProduct.getReleaseDate(),
+				insertProduct.getQuantity(), sfp.getParsedDateString(insertProduct.getReleaseDate()),
 				insertProduct.getInterpret(), insertProduct.getType(),
 				insertProduct.getGenre(), insertProduct.getDescription(),
 				insertProduct.getImage());

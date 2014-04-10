@@ -1,5 +1,6 @@
 package com.olympus.rest.sap;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -85,5 +86,10 @@ public class SAPFunctionPreperator {
 	public int getRemainingQuantity(Function upd) {
 		int remaining = upd.getExportParameterList().getInt("EXPORTQTY");
 		return remaining;
+	}
+
+	public String getParsedDateString(Date releaseDate) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		return sdf.format(releaseDate);
 	}
 }
