@@ -7,6 +7,7 @@ import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -50,7 +51,7 @@ public class OlympusRest {
 		ProductList pl = new ProductList();
 		try {
 			SAPProductModel spm = SAPProductModel.getInstanceOf(context);
-			products = spm.getProductsByName(productName);
+			products = spm.getProductsByName("%" + productName.toUpperCase() + "%");
 			pl.setProducts(products);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -78,12 +79,32 @@ public class OlympusRest {
 	}
 	
 	@POST
+	@Path("insertproduct")
 	@Consumes({MediaType.TEXT_HTML, MediaType.TEXT_XML})
 	public String insertProduct(Product product) {
 		String outcome = "Product inserted";
 		try {
 			SAPProductModel spm = SAPProductModel.getInstanceOf(context);
 			spm.insertProduct(product);
+		} catch (Exception e) {
+			e.printStackTrace();
+			outcome = "An error occured: " + e.getMessage();
+		}
+		return outcome;
+	}
+	
+	@PUT
+	@Path("updateqty")
+	@Consumes({MediaType.TEXT_HTML, MediaType.TEXT_XML})
+	public String updateQty(Product product) {
+		String outcome = "There are still products";
+		SAPProductModel spm = SAPProductModel.getInstanceOf(context);
+		try {
+			int remaining = spm.updateQuantity(product);
+			if(remaining < 0) {
+				outcome = "No more products remaining";
+				product = new Product(product.getId(), 0, null, product.getQuantity()*-1, null, null, null, null, null, null);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			outcome = "An error occured: " + e.getMessage();

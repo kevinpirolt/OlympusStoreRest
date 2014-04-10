@@ -81,4 +81,9 @@ public class SAPFunctionPreperator {
 		}
 		return products;
 	}
+
+	public int getRemainingQuantity(Function upd) {
+		int remaining = upd.getExportParameterList().getInt("EXPORTQTY");
+		return remaining;
+	}
 }

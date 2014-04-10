@@ -49,8 +49,8 @@ public class SAPProductModel {
 				insertProduct.getInterpret(), insertProduct.getType(),
 				insertProduct.getGenre(), insertProduct.getDescription(),
 				insertProduct.getImage());
-		ArrayList<String> names = sfp.prepareStringArrayList("INSNAME", "INSPRICE", "INSQTY", "INSTRELDATE",
-				"INSTINTERPRET", "INSTYPE", "INSGENRE", "INSDESCRIPTION", "INSIMG");
+		ArrayList<String> names = sfp.prepareStringArrayList("INSNAME", "INSPRICE", "INSQTY", "INSRELDATE",
+				"INSINTERPRET", "INSTYPE", "INSGENRE", "INSDESCRIPTION", "INSIMG");
 		sfp.setInsertParameter(insert, values, names);
 		sfp.executeFunction(insert, mConnection);
 		sfp.executeFunction(commit, mConnection);
@@ -109,5 +109,26 @@ public class SAPProductModel {
 		
 		this.disconnect();
 		return products;
+	}
+	
+	public int updateQuantity(Product p) throws Exception {
+		int qtyProducts = 0;
+		
+		this.createConnection();
+		
+		JCO.Function upd = sfp.getFunction("ZBAPI_OLYMPUS_UPDATEPCOUNT", this.mConnection);
+		JCO.Function commit = sfp.getCommitFunction(mConnection);
+		
+		ArrayList<Object> values = sfp.prepareArrayList(p.getId(), p.getQuantity());
+		ArrayList<String> names = sfp.prepareStringArrayList("PID", "MINUSQUANTITY");
+		sfp.setInsertParameter(upd, values, names);
+		
+		sfp.executeFunction(upd, this.mConnection);
+		sfp.executeFunction(commit, this.mConnection);
+		
+		qtyProducts = sfp.getRemainingQuantity(upd);
+		this.disconnect();
+		
+		return qtyProducts;
 	}
 }
