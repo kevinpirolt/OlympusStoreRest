@@ -20,6 +20,20 @@ public class Product {
 
 	public Product() {
 	}
+	
+	public Product(int id, int quantity) {
+		super();
+		this.id = id;
+		this.price = 0f;
+		this.name = "";
+		this.quantity = quantity;
+		this.releaseDate = new Date();
+		this.interpret = "";
+		this.genre = "";
+		this.description = "";
+		this.image = "";
+		this.type = "";
+	}
 
 	public Product(int id, float price,String name, int quantity, Date releaseDate,
 			String interpret, String genre, String description, String image, String type) {

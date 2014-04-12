@@ -1,6 +1,7 @@
 package com.olympus.rest.sap;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -12,7 +13,13 @@ import com.sap.mw.jco.util.SyncDateFormat;
 
 public class SAPFunctionPreperator {
 
-	public SAPFunctionPreperator() {}
+	private static final String format = "yyyyMMdd";
+	
+	private SimpleDateFormat sdf;
+	
+	public SAPFunctionPreperator() {
+		this.sdf = new SimpleDateFormat(format);
+	}
 	
 	public Function getCommitFunction(JCO.Client con) throws Exception {
 		return this.getFunction("BAPI_TRANSACTION_COMMIT", con);
@@ -65,7 +72,7 @@ public class SAPFunctionPreperator {
 		return values;
 	}
 
-	public ArrayList<Product> getProducts(Function get) {
+	public ArrayList<Product> getProducts(Function get) throws ParseException {
 		ArrayList<Product> products = new ArrayList<Product>();
 		JCO.Table productsTable = get.getTableParameterList().getTable("PRODUCTS");
 		for(int i = 0; i<productsTable.getNumRows(); i++, productsTable.setRow(i)){
@@ -73,7 +80,7 @@ public class SAPFunctionPreperator {
 			String name = productsTable.getString("NAME");
 			float price = productsTable.getFloat("PRICE");
 			int qty = productsTable.getInt("QTY");
-			Date reldate = productsTable.getDate("RELDATE");
+			Date reldate = this.getParsedRelDate(productsTable.getString("RELDATE"));
 			String interpret = productsTable.getString("INTERPRET");
 			String type = productsTable.getString("TYPE");
 			String genre = productsTable.getString("GENRE");
@@ -88,9 +95,12 @@ public class SAPFunctionPreperator {
 		int remaining = upd.getExportParameterList().getInt("EXPORTQTY");
 		return remaining;
 	}
-
-	public Date getParsedDateString(Date releaseDate) throws ParseException {
-		SyncDateFormat sdf = new SyncDateFormat("yyyyMMdd");
-		return sdf.parse(sdf.format(releaseDate));
+	
+	public String getFormatedRelDate(Date releaseDate) {
+		return sdf.format(releaseDate);
+	}
+	
+	public Date getParsedRelDate(String releaseDate) throws ParseException {
+		return sdf.parse(releaseDate);
 	}
 }

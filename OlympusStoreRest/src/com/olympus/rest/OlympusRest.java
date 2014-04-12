@@ -77,7 +77,7 @@ public class OlympusRest {
 		}
 		return pl;
 	}
-	
+	//************************************************INSERT*********************************************
 	@POST
 	@Path("insertproduct")
 	@Consumes({MediaType.TEXT_HTML, MediaType.TEXT_XML})
@@ -88,11 +88,11 @@ public class OlympusRest {
 			spm.insertProduct(product);
 		} catch (Exception e) {
 			e.printStackTrace();
-			outcome = "An error occured: " + e.getMessage();
+			outcome = "ERROR600_An error occured: " + e.getMessage();
 		}
 		return outcome;
 	}
-	
+	//************************************************UPDATE********************************************
 	@PUT
 	@Path("updateqty")
 	@Consumes({MediaType.TEXT_HTML, MediaType.TEXT_XML})
@@ -101,14 +101,17 @@ public class OlympusRest {
 		SAPProductModel spm = SAPProductModel.getInstanceOf(context);
 		try {
 			int remaining = spm.updateQuantity(product);
+			System.out.println("Products remaining: " + remaining);
 			if(remaining < 0) {
-				outcome = "No more products remaining";
-				product = new Product(product.getId(), 0, null, product.getQuantity()*-1, null, null, null, null, null, null);
+				outcome = "ERROR500_No more products remaining";
+				Product rollBackProduct = new Product(product.getId(), 0, null, (product.getQuantity()*-1), null, null, null, null, null, null);
+				spm.updateQuantity(rollBackProduct);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			outcome = "An error occured: " + e.getMessage();
+			outcome = "ERROR600_An error occured: " + e.getMessage();
 		}
+		System.out.println("OUTCOME: " + outcome);
 		return outcome;
 	}
 
