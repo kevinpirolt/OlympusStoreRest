@@ -47,11 +47,12 @@ public class OlympusRest {
 	@Path("getproductsbyname/{productname}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_XML, MediaType.TEXT_HTML })
 	public ProductList getProductsByName(@PathParam("productname") String productName) {
+		System.out.println("--------->SearchName OlympusRest: " + productName);
 		ArrayList<Product> products = new ArrayList<Product>();
 		ProductList pl = new ProductList();
 		try {
 			SAPProductModel spm = SAPProductModel.getInstanceOf(context);
-			products = spm.getProductsByName("%" + productName.toUpperCase() + "%");
+			products = spm.getProductsByName("%" + productName + "%");
 			pl.setProducts(products);
 		} catch (Exception e) {
 			e.printStackTrace();
