@@ -102,11 +102,11 @@ public class OlympusRest {
 		try {
 			int remaining = spm.updateQuantity(product);
 			System.out.println("Products remaining: " + remaining);
-			if(remaining < 0) {
+			/*if(remaining < 0) {
 				outcome = "ERROR500_No more products remaining";
 				Product rollBackProduct = new Product(product.getId(), 0, null, (product.getQuantity()*-1), null, null, null, null, null, null);
 				spm.updateQuantity(rollBackProduct);
-			}
+			}*/
 		} catch (Exception e) {
 			e.printStackTrace();
 			outcome = "ERROR600_An error occured: " + e.getMessage();
