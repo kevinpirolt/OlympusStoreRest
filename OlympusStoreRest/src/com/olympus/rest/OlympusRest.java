@@ -5,6 +5,7 @@ import java.util.logging.Level;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -90,6 +91,21 @@ public class OlympusRest {
 		} catch (Exception e) {
 			e.printStackTrace();
 			outcome = "ERROR600_An error occured: " + e.getMessage();
+		}
+		return outcome;
+	}
+	
+	@DELETE
+	@Path("deleteproduct")
+	@Consumes({MediaType.TEXT_HTML, MediaType.TEXT_XML})
+	public String deleteProduct(Product product){
+		String outcome = "Product " + product.getId() + " " + product.getName() + " deleted";
+		SAPProductModel spm = SAPProductModel.getInstanceOf(context);
+		try {
+			spm.deleteProduct(product);
+		} catch (Exception e) {
+			e.printStackTrace();
+			outcome = "ERROR_600: " + e.getMessage();
 		}
 		return outcome;
 	}

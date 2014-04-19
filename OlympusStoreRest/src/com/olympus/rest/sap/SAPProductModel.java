@@ -132,4 +132,23 @@ public class SAPProductModel {
 		
 		return qtyProducts;
 	}
+
+	public String deleteProduct(Product product) throws Exception {
+		String outcome = "Product " + product.getId() + " " + product.getName() + " deleted";
+		this.createConnection();
+		
+		JCO.Function upd = sfp.getFunction("ZBAPI_OLYMPUS_DELETEPRODUCT", this.mConnection);
+		JCO.Function commit = sfp.getCommitFunction(mConnection);
+		
+		ArrayList<Object> values = sfp.prepareArrayList(product.getId());
+		ArrayList<String> names = sfp.prepareStringArrayList("IMPPID");
+		sfp.setInsertParameter(upd, values, names);
+		
+		sfp.executeFunction(upd, this.mConnection);
+		sfp.executeFunction(commit, this.mConnection);
+
+		this.disconnect();
+		return outcome;
+		
+	}
 }
