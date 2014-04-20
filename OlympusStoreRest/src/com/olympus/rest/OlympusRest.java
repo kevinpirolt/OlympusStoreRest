@@ -95,7 +95,7 @@ public class OlympusRest {
 		return outcome;
 	}
 	
-	@DELETE
+	@PUT
 	@Path("deleteproduct")
 	@Consumes({MediaType.TEXT_HTML, MediaType.TEXT_XML})
 	public String deleteProduct(Product product){
