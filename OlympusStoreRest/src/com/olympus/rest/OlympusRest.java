@@ -48,7 +48,6 @@ public class OlympusRest {
 	@Path("getproductsbyname/{productname}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_XML, MediaType.TEXT_HTML })
 	public ProductList getProductsByName(@PathParam("productname") String productName) {
-		System.out.println("--------->SearchName OlympusRest: " + productName);
 		ArrayList<Product> products = new ArrayList<Product>();
 		ProductList pl = new ProductList();
 		try {
@@ -66,7 +65,6 @@ public class OlympusRest {
 	@Path("getlatestproducts/{producttype}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_XML, MediaType.TEXT_HTML })
 	public ProductList getLatestProducts(@PathParam("producttype") String productType) {
-		System.out.println("In getLatestProducts");
 		ArrayList<Product> products = new ArrayList<Product>();
 		ProductList pl = new ProductList();
 		try {
@@ -118,7 +116,6 @@ public class OlympusRest {
 		SAPProductModel spm = SAPProductModel.getInstanceOf(context);
 		try {
 			int remaining = spm.updateQuantity(product);
-			System.out.println("Products remaining: " + remaining);
 			/*if(remaining < 0) {
 				outcome = "ERROR500_No more products remaining";
 				Product rollBackProduct = new Product(product.getId(), 0, null, (product.getQuantity()*-1), null, null, null, null, null, null);
@@ -128,7 +125,6 @@ public class OlympusRest {
 			e.printStackTrace();
 			outcome = "ERROR600_An error occured: " + e.getMessage();
 		}
-		System.out.println("OUTCOME: " + outcome);
 		return outcome;
 	}
 
